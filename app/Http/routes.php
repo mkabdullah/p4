@@ -35,3 +35,7 @@ Route::get('/users/create', 'UserController@create')->name('users.create');
 Route::post('/users/create', 'UserController@store')->name('users.store');
 Route::get('/users/{id}/edit', 'UserController@edit')->name('users.edit');
 Route::post('/users/{id}/edit', 'UserController@update')->name('users.udpate');
+
+Route::auth();
+
+Route::get('/home', 'HomeController@index');
