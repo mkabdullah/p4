@@ -12,7 +12,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'user_role_id',
     ];
 
     /**
@@ -23,4 +23,11 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function userRole()
+    {
+      # User can have one role
+      # Define an inverse one-to-many relationship.
+      return $this->belongsTo('p4\UserRole');
+    }
 }

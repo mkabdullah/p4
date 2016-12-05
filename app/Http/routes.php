@@ -14,3 +14,24 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::get('/index', function () {
+    return view('index');
+})->name('index');
+
+Route::get('/debug', 'TaskController@debug')->name('tasks.debug');
+
+Route::get('/tasks', 'TaskController@index')->name('tasks.index');
+Route::get('/tasks/incomplete', 'TaskController@incomplete')->name('tasks.incomplete');
+Route::get('/tasks/complete', 'TaskController@complete')->name('tasks.complete');
+Route::get('/tasks/show/{id}', 'TaskController@show')->name('tasks.show');
+Route::get('/tasks/create', 'TaskController@create')->name('tasks.create');
+Route::post('/tasks/create', 'TaskController@store')->name('tasks.store');
+Route::get('/tasks/{id}/edit', 'TaskController@edit')->name('tasks.edit');
+Route::post('/tasks/{id}/edit', 'TaskController@update')->name('tasks.update');
+
+Route::get('/users/create', 'UserController@create')->name('users.create');
+Route::post('/users/create', 'UserController@store')->name('users.store');
+Route::get('/users/{id}/edit', 'UserController@edit')->name('users.edit');
+Route::post('/users/{id}/edit', 'UserController@update')->name('users.udpate');
