@@ -29,15 +29,25 @@
                             <th>Task Name</th>
                             <th>Task Details</th>
                             <th>Status</th>
+                            <th>Actions</th>
                           </tr>
                         </thead>
                         <tbody>
-                        <?php foreach($tasks as $task) { ?>
+                        <?php foreach($tasks as $task)
+                        {
+                          $edit_url = '/tasks/'.$task->id.'/edit';
+                          $delete_url = '/tasks/'.$task->id;
+                        ?>
                           <tr>
                             <th scope="row">{{ $task->id }}</th>
                             <td>{{ $task->name }}</td>
                             <td>{{ $task->details }}</td>
                             <td>{{ $task->taskStatus->name }}</td>
+                            <td><a href="{{ url($edit_url) }}"><i class="fa fa-btn fa-pencil"></i></a>&nbsp;
+                                <form method='POST' action='{{ url($delete_url) }}'>
+                                  <input name='_method' type='hidden' value='DELETE'>
+                                  <input name='id' type='hidden' value='1'>
+                                  <a href='javascript:void(0)' onClick='parentNode.submit();return false;'><i class="fa fa-btn fa-trash"></i></a></form></td>
                           </tr>
                         <?php } ?>
                         </tbody>

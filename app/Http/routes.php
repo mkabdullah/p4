@@ -29,7 +29,7 @@ Route::get('/tasks/show/{id}', 'TaskController@show')->name('tasks.show');
 Route::get('/tasks/create', 'TaskController@create')->name('tasks.create');
 Route::post('/tasks/create', 'TaskController@store')->name('tasks.store');
 Route::get('/tasks/{id}/edit', 'TaskController@edit')->name('tasks.edit');
-Route::post('/tasks/{id}/edit', 'TaskController@update')->name('tasks.update');
+Route::put('/tasks/{id}', 'TaskController@update')->name('tasks.update');
 
 Route::get('/users/create', 'UserController@create')->name('users.create');
 Route::post('/users/create', 'UserController@store')->name('users.store');

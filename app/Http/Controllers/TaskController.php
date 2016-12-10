@@ -97,7 +97,27 @@ class TaskController extends Controller
      */
     public function edit($id)
     {
-        //
+      #return view('lorem-ipsum.generate')->with('paragraphs', $paragraphs);
+
+      $task = \p4\Task::find($id);
+
+      if(is_null($task)) {
+          Session::flash('flash_message', 'Task not found');
+          return redirect('/');
+      }
+
+      $task_statuses = \p4\TaskStatus::orderBy('name', 'ASC')->get();
+
+      $task_statuses_for_dropdown = [];
+      foreach($task_statuses as $task_status)
+      {
+        $task_statuses_for_dropdown[$task_status->id] = $task_status->name;
+      }
+
+      return view('task.edit')->with([
+        'task' => $task,
+        'task_statuses_for_dropdown' => $task_statuses_for_dropdown
+      ]);
     }
 
     /**
@@ -109,7 +129,25 @@ class TaskController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      # Validate
+      /*
+        $this->validate($request, [
+            'title' => 'required|min:3',
+            'published' => 'required|min:4|numeric',
+            'cover' => 'required|url',
+            'purchase_link' => 'required|url',
+        ]);
+        */
+        # Find and update book
+        $task = \p4\Task::find($request->id);
+        $task->name = $request->name;
+        $task->details = $request->details;
+        $task->task_status_id = $request->task_status_id;
+        $task->save();
+
+        # Finish
+        \Session::flash('flash_message', 'Your changes to '.$task->name.' were saved.');
+        return redirect('/');
     }
 
     /**
