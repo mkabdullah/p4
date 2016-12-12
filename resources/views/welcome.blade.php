@@ -46,6 +46,8 @@
                             <td><a href="{{ url($edit_url) }}"><i class="fa fa-btn fa-pencil"></i></a>&nbsp;
                                 <form method='POST' action='{{ url($delete_url) }}'>
                                   <input name='_method' type='hidden' value='DELETE'>
+                                  {{ method_field('DELETE') }}
+                                  {{ csrf_field() }}
                                   <input name='id' type='hidden' value='1'>
                                   <a href='javascript:void(0)' onClick='parentNode.submit();return false;'><i class="fa fa-btn fa-trash"></i></a></form></td>
                           </tr>

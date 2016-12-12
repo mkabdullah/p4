@@ -30,4 +30,15 @@ class User extends Authenticatable
       # Define an inverse one-to-many relationship.
       return $this->belongsTo('p4\UserRole');
     }
+
+    public static function getForDropdown()
+    {
+        $users = User::orderBy('name', 'ASC')->get();
+        $users_for_dropdown = [];
+        foreach($users as $user)
+        {
+            $users_for_dropdown[$user->id] = $user->name;
+        }
+        return $users_for_dropdown;
+    }
 }

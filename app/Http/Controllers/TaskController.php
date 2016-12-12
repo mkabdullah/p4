@@ -64,6 +64,16 @@ class TaskController extends Controller
      */
     public function create()
     {
+      # User
+      $users_for_dropdown = \p4\User::getForDropdown();
+
+      # status
+      $task_statuses_for_dropdown = \p4\TaskStatus::getForDropdown();
+
+      return view('task.create')->with([
+        'users_for_dropdown' => $users_for_dropdown,
+        'task_statuses_for_dropdown' => $task_statuses_for_dropdown
+      ]);
         //
     }
 
@@ -75,7 +85,16 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      $task = new \p4\Task();
+      $task->name = $request->name;
+      $task->details = $request->details;
+      $task->user_id = $request->user_id;
+      $task->task_status_id = $request->task_status_id;
+      $task->save();
+
+      \Session::flash('flash_message', 'Your task '.$task->name.' was added.');
+      return redirect('/');
+
     }
 
     /**
@@ -102,10 +121,11 @@ class TaskController extends Controller
       $task = \p4\Task::find($id);
 
       if(is_null($task)) {
-          Session::flash('flash_message', 'Task not found');
+          \Session::flash('flash_message', 'Task not found');
           return redirect('/');
       }
 
+/*
       $task_statuses = \p4\TaskStatus::orderBy('name', 'ASC')->get();
 
       $task_statuses_for_dropdown = [];
@@ -113,6 +133,9 @@ class TaskController extends Controller
       {
         $task_statuses_for_dropdown[$task_status->id] = $task_status->name;
       }
+*/
+
+     $task_statuses_for_dropdown = \p4\TaskStatus::getForDropdown();
 
       return view('task.edit')->with([
         'task' => $task,
@@ -158,6 +181,18 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
-        //
+      # Get the book to be deleted
+      $task = \p4\Task::find($id);
+      if(is_null($task)) {
+          Session::flash('message','Task not found.');
+          return redirect('/');
+      }
+
+      # delete the task
+      $task->delete();
+      # Finish
+      Session::flash('flash_message', $task->name.' was deleted.');
+      return redirect('/');
+
     }
 }
