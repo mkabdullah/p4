@@ -184,14 +184,14 @@ class TaskController extends Controller
       # Get the book to be deleted
       $task = \p4\Task::find($id);
       if(is_null($task)) {
-          Session::flash('message','Task not found.');
+          \Session::flash('message','Task not found.');
           return redirect('/');
       }
 
       # delete the task
       $task->delete();
       # Finish
-      Session::flash('flash_message', $task->name.' was deleted.');
+      \Session::flash('flash_message', $task->name.' was deleted.');
       return redirect('/');
 
     }
