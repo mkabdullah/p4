@@ -47,7 +47,7 @@
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/home') }}">Home</a></li>
+                    <li><a href="{{ url('/') }}">Home</a></li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->
@@ -68,6 +68,8 @@
                                   <li><a href="{{ url('/tasks/create') }}"><i class="fa fa-btn fa-tasks"></i>Create Task</a></li>
                               @endif
 
+                              <li><a href="{{ url('/tasks/complete') }}"><i class="fa fa-btn fa-tasks"></i>Completed Tasks</a></li>
+                              <li><a href="{{ url('/tasks/incomplete') }}"><i class="fa fa-btn fa-tasks"></i>Incomplete Tasks</a></li>
                               <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                             </ul>
                         </li>

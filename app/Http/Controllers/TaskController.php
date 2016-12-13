@@ -54,7 +54,10 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
+      $tasks = \p4\Task::where('user_id', '=', \Auth::user()->id)->get();
+
+      return view('task.list')->with('tasks', $tasks);
+
     }
 
     /**
@@ -195,4 +198,30 @@ class TaskController extends Controller
       return redirect('/');
 
     }
+
+
+    public function complete()
+    {
+      $task_status = \p4\TaskStatus::where('name', '=', 'COMPLETE')->first();
+      #return view('task.list')->with('task_status_id', $task_status->id);
+
+      $tasks = \p4\Task::where('user_id', '=', \Auth::user()->id)->where('task_status_id', '=', $task_status->id)->get();
+
+      return view('task.list')->with('tasks', $tasks);
+
+        //
+    }
+
+    public function incomplete()
+    {
+      #$task_status = \p4\TaskStatus::where('name', '=', 'INCOMPLETE')->first();
+      #return view('task.list')->with('task_status_id', $task_status->id);
+
+      $task_status = \p4\TaskStatus::where('name', '=', 'INCOMPLETE')->first();
+      $tasks = \p4\Task::where('user_id', '=', \Auth::user()->id)->where('task_status_id', '=', $task_status->id)->get();
+
+      return view('task.list')->with('tasks', $tasks);
+
+    }
+
 }

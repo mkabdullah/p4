@@ -11,17 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-
-Route::get('/index', function () {
-    return view('index');
-})->name('index');
-
 Route::get('/debug', 'TaskController@debug')->name('tasks.debug');
 
+Route::get('/', 'TaskController@index')->name('tasks.index');
 Route::get('/tasks', 'TaskController@index')->name('tasks.index');
 Route::get('/tasks/incomplete', 'TaskController@incomplete')->name('tasks.incomplete');
 Route::get('/tasks/complete', 'TaskController@complete')->name('tasks.complete');
