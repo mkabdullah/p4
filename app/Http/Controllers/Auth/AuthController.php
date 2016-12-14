@@ -77,33 +77,46 @@ class AuthController extends Controller
         ]);
     }
 
+
     protected function register()
     {
+      #get the user roles for dropdown
       $user_roles_for_dropdown = \p4\UserRole::getForDropdown();
+
+      #forward to the registeration view
       return view('auth.register')->with('user_roles_for_dropdown', $user_roles_for_dropdown);
     }
 
 
     public function store(Request $request)
     {
+      #validate the input
+      $this->validate($request, ['name' => 'required|max:255',
+                                'email' => 'required|email|max:255|unique:users',
+                                'password' => 'required|min:6|confirmed',]);
+
+      #get any existing user for this email id
+      $existingUsers = \p4\User::all()->keyBy('email')->toArray();
+
+      #create a new user object
       $user = new \p4\User();
       $user->email = $request->email;
       $user->name = $request->name;
-      $user->password = $request->password;
+      $user->password = bcrypt($request->password);
       $user->user_role_id = $request->user_role_id;
-      $user->save();
 
-      $existingUsers = \p4\User::all()->keyBy('email')->toArray();
-
-      if(!array_key_exists($user[0],$existingUsers))
+      #check if the user exists already
+      if(!array_key_exists($user->email,$existingUsers))
       {
-          $user = \p4\User::create([
-            'email' => $user[0],
-            'name' => $user[1],
-            'password' => bcrypt($user[2]),
-            'user_role_id' => $user[3],
-          ]);
+        $user->save();
+        \Session::flash('flash_message', 'New user '.$user->name.' was added.');
       }
+      else
+      {
+        \Session::flash('flash_message', 'user email '.$user->email.' already in use.');
+      }
+
+      #Finish
       return redirect('/');
 
     }

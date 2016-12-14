@@ -55,11 +55,15 @@ class TaskController extends Controller
     public function index()
     {
       $tasks =[];
+
+      #check if this is a logged in user
       if(! \Auth::guest())
       {
+        #get the task list for this user
         $tasks = \p4\Task::where('user_id', '=', \Auth::user()->id)->get();
       }
-      
+
+      #forward to the list view
       return view('task.list')->with('tasks', $tasks);
 
     }
@@ -71,12 +75,13 @@ class TaskController extends Controller
      */
     public function create()
     {
-      # User
+      # get the users for dropdown
       $users_for_dropdown = \p4\User::getForDropdown();
 
-      # status
+      # get the statuses for dropdown
       $task_statuses_for_dropdown = \p4\TaskStatus::getForDropdown();
 
+      #forward to the create task view
       return view('task.create')->with([
         'users_for_dropdown' => $users_for_dropdown,
         'task_statuses_for_dropdown' => $task_statuses_for_dropdown
@@ -92,13 +97,21 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
+      #validate the input
+      $this->validate($request, ['name' => 'required|max:255',
+                                'details' => 'required|max:255',]);
+
+      #create a new task object
       $task = new \p4\Task();
       $task->name = $request->name;
       $task->details = $request->details;
       $task->user_id = $request->user_id;
       $task->task_status_id = $request->task_status_id;
+
+      #save the task in DB
       $task->save();
 
+      #Finish
       \Session::flash('flash_message', 'Your task '.$task->name.' was added.');
       return redirect('/');
 
@@ -123,7 +136,6 @@ class TaskController extends Controller
      */
     public function edit($id)
     {
-      #return view('lorem-ipsum.generate')->with('paragraphs', $paragraphs);
 
       $task = \p4\Task::find($id);
 
@@ -131,16 +143,6 @@ class TaskController extends Controller
           \Session::flash('flash_message', 'Task not found');
           return redirect('/');
       }
-
-/*
-      $task_statuses = \p4\TaskStatus::orderBy('name', 'ASC')->get();
-
-      $task_statuses_for_dropdown = [];
-      foreach($task_statuses as $task_status)
-      {
-        $task_statuses_for_dropdown[$task_status->id] = $task_status->name;
-      }
-*/
 
      $task_statuses_for_dropdown = \p4\TaskStatus::getForDropdown();
 
@@ -159,25 +161,27 @@ class TaskController extends Controller
      */
     public function update(Request $request, $id)
     {
-      # Validate
-      /*
-        $this->validate($request, [
-            'title' => 'required|min:3',
-            'published' => 'required|min:4|numeric',
-            'cover' => 'required|url',
-            'purchase_link' => 'required|url',
-        ]);
-        */
-        # Find and update book
-        $task = \p4\Task::find($request->id);
-        $task->name = $request->name;
-        $task->details = $request->details;
-        $task->task_status_id = $request->task_status_id;
-        $task->save();
+      #check if the task exists
+      $task = \p4\Task::find($request->id);
 
-        # Finish
-        \Session::flash('flash_message', 'Your changes to '.$task->name.' were saved.');
-        return redirect('/');
+      if(is_null($task)) {
+          \Session::flash('flash_message', 'Task not found');
+          return redirect('/');
+      }
+
+      #validate the input
+      $this->validate($request, ['name' => 'required|max:255',
+                                'details' => 'required|max:255',]);
+
+      #set new task values
+      $task->name = $request->name;
+      $task->details = $request->details;
+      $task->task_status_id = $request->task_status_id;
+      $task->save();
+
+      # Finish
+      \Session::flash('flash_message', 'Your changes to '.$task->name.' were saved.');
+      return redirect('/');
     }
 
     /**
@@ -188,8 +192,10 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
-      # Get the book to be deleted
+      #find the task to be deleted
       $task = \p4\Task::find($id);
+
+      #check if it exists?
       if(is_null($task)) {
           \Session::flash('message','Task not found.');
           return redirect('/');
@@ -197,6 +203,7 @@ class TaskController extends Controller
 
       # delete the task
       $task->delete();
+
       # Finish
       \Session::flash('flash_message', $task->name.' was deleted.');
       return redirect('/');
@@ -206,24 +213,26 @@ class TaskController extends Controller
 
     public function complete()
     {
+      #get the status id for COMPLETE
       $task_status = \p4\TaskStatus::where('name', '=', 'COMPLETE')->first();
-      #return view('task.list')->with('task_status_id', $task_status->id);
 
+      #get the completed tasks
       $tasks = \p4\Task::where('user_id', '=', \Auth::user()->id)->where('task_status_id', '=', $task_status->id)->get();
 
+      #return the list view
       return view('task.list')->with('tasks', $tasks);
 
-        //
     }
 
     public function incomplete()
     {
-      #$task_status = \p4\TaskStatus::where('name', '=', 'INCOMPLETE')->first();
-      #return view('task.list')->with('task_status_id', $task_status->id);
-
+      #get the status id for INCOMPLETE
       $task_status = \p4\TaskStatus::where('name', '=', 'INCOMPLETE')->first();
+
+      #get the incomplete tasks
       $tasks = \p4\Task::where('user_id', '=', \Auth::user()->id)->where('task_status_id', '=', $task_status->id)->get();
 
+      #return the list view
       return view('task.list')->with('tasks', $tasks);
 
     }
