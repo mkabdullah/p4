@@ -66,6 +66,19 @@
                             </div>
                         </div>
 
+                        <div class='form-group'>
+                          <label for="user_role_id" class="col-md-4 control-label">Role</label>
+                          <div class="col-md-6">
+                            <select name='user_role_id'>
+                              @foreach($user_roles_for_dropdown as $user_role_id => $user_role)
+                                <option
+                                value='{{ $user_role_id }}'
+                                >{{ $user_role }}</option>
+                              @endforeach
+                            </select>
+                          </div>
+                        </div>
+
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">

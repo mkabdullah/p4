@@ -31,4 +31,7 @@ Route::post('/users/{id}/edit', 'UserController@update')->name('users.udpate');
 
 Route::auth();
 
+Route::get('/register', 'Auth\AuthController@register')->name('auth.register');
+Route::post('/register', 'Auth\AuthController@store')->name('auth.store');
+
 Route::get('/home', 'HomeController@index');

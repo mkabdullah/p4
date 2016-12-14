@@ -54,8 +54,12 @@ class TaskController extends Controller
      */
     public function index()
     {
-      $tasks = \p4\Task::where('user_id', '=', \Auth::user()->id)->get();
-
+      $tasks =[];
+      if(! \Auth::guest())
+      {
+        $tasks = \p4\Task::where('user_id', '=', \Auth::user()->id)->get();
+      }
+      
       return view('task.list')->with('tasks', $tasks);
 
     }

@@ -3,7 +3,8 @@
 @section('task-list')
   <?php
     #$tasks = \p4\Task::where('user_id', '=', Auth::user()->id)->where('task_status_id', '=', $task_status_id)->get();
-    if(!$tasks->isEmpty()) {
+    #if(!$tasks->isEmpty()) {
+    if(! empty($tasks)) {
   ?>
     <table class="table">
       <thead>
