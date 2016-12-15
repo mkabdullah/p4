@@ -33,7 +33,7 @@ There are 3 task related views:
 
 ## Project Planning
 
-Here is a link to project planning document [Link](https://docs.google.com/document/d/1EjofPJ_pHRT3e1gr1JDJP7qSW2_X2DjeRurrMyL32WM/edit). 
+Here is a link to project planning document [Link](https://docs.google.com/document/d/1EjofPJ_pHRT3e1gr1JDJP7qSW2_X2DjeRurrMyL32WM/edit).
 
 ## Where is it?
 
@@ -45,7 +45,9 @@ Project code is available at [Github](https://github.com/mkabdullah/p4)
 The project demo video is hosted [here](https://www.youtube.com/watch?v=i1Lk7kRjFHw)
 
 ## Credits
+
 The project uses the following external css files:
+
 1. https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css
 2. https://fonts.googleapis.com/css?family=Lato:100,300,400,700
 3. https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css
