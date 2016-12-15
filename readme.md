@@ -42,7 +42,7 @@ Project code is available at [Github](https://github.com/mkabdullah/p4)
 
 ## Project Demo
 
-The project demo video is hosted [here](https://www.youtube.com/watch?v=i1Lk7kRjFHw)
+The project demo video is hosted [here](https://www.youtube.com/watch?v=pb3ijxObTjs)
 
 ## Credits
 
